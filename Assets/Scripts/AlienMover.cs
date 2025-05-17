@@ -1,42 +1,63 @@
 ﻿using UnityEngine;
+using System.Collections; // sound cut
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class AlienMover : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;
+    public float floatAmplitude = 0.05f;
+    public float floatFrequency = 1.5f;
+    public float turnSpeed = 2.0f;
+    public AudioClip hitSound; // sound
 
-    private Rigidbody rb;
+    private float baseY;
+    private AudioSource audioSource; //sound
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        baseY = transform.position.y;
+        audioSource = GetComponent<AudioSource>(); // sound
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // 전방 방향으로만 이동
-        Vector3 move = transform.forward * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + move);
+        // Y축 진동 (부유감)
+        float floatOffset = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
+        Vector3 pos = transform.position;
+        pos.y = baseY + floatOffset;
+        transform.position = pos;
+
+        // 플레이어(카메라)를 바라보게 회전
+        if (Camera.main != null)
+        {
+            Vector3 lookTarget = Camera.main.transform.position;
+            Vector3 direction = (lookTarget - transform.position).normalized;
+            direction.y = 0; // 수평 회전만
+
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+            }
+        }
     }
 
-    //디버그용
-    
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision) // sound
     {
-        Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name}");
-    }
-    void OnCollisionStay(Collision collision)
-    {
-        Debug.Log($"[Alien] 충돌 중... 대상: {collision.gameObject.name}");
+        if (hitSound != null && !audioSource.isPlaying)
+        {
+            StartCoroutine(PlayClipForSeconds(2f)); // 앞 2초만 재생
+            Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name} → 사운드 재생");
+        }
     }
 
-    void OnCollisionExit(Collision collision)
+    IEnumerator PlayClipForSeconds(float duration) // sound cut
     {
-        Debug.Log($"[Alien] 충돌 종료: {collision.gameObject.name}");
+        audioSource.clip = hitSound;
+        audioSource.Play();
+        Debug.Log($"[Alien] 오디오 재생됨? isPlaying: {audioSource.isPlaying}");
+        yield return new WaitForSeconds(duration);
+        audioSource.Stop();
     }
-    void OnTriggerEnter(Collider other)
-    {
-        Debug.Log($"[Alien] 트리거 진입: {other.gameObject.name}");
-    }
+
 
 }
