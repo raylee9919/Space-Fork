@@ -57,8 +57,8 @@ public class ShowKeyboard : MonoBehaviour
     // 키보드 닫힘 이벤트 처리 함수
     private void Instance_OnClosed(object sender, System.EventArgs e)
     {
-        // 커서(캐럿) 감추기
-        SetCaretColorAlpha(0);
+        // 커서(캐럿) 감추기 < 왜 감추지?
+        SetCaretColorAlpha(1);
 
         // 이벤트 핸들러 제거
         NonNativeKeyboard.Instance.OnClosed -= Instance_OnClosed;
