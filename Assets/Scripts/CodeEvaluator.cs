@@ -44,6 +44,7 @@ public class CodeEvaluator : MonoBehaviour
 
                     return;
                 }
+
                 monitorText.text += "\nHello World!";
 
                 lightController.ActivateLights();
@@ -101,5 +102,10 @@ public class CodeEvaluator : MonoBehaviour
                 monitorText.text = "정의되지 않은 단계입니다";
                 break;
         }
+
+        // 입력창 초기화 + 포커스 복구 //////////
+        inputField.text = "";
+        inputField.Select();
+        inputField.ActivateInputField();
     }
 }
