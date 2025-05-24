@@ -11,104 +11,125 @@ public class CodeEvaluator : MonoBehaviour
 
     private MiniPythonParser parser = new MiniPythonParser();
 
-    // 현재 게임 단계 (1 ~ 5)
     [Range(1, 5)]
     public int stage = 1;
+
+    private bool awaitingNextInput = false;
+
+    void Start()
+    {
+        Debug.Log("void Start()");
+        if (inputField != null)
+        {
+            inputField.onValueChanged.AddListener(HandleInputStarted);
+            inputField.onSelect.AddListener(_ => ResetAfterSubmit());
+        }
+    }
+
+    private void HandleInputStarted(string _)
+    {
+        Debug.Log("HandleInputStarted");
+        if (awaitingNextInput)
+        {
+            inputField.text = "";
+            monitorText.text = "";
+            awaitingNextInput = false;
+        }
+    }
+
+    private void ResetAfterSubmit()
+    {
+        Debug.Log("ResetAfterSubmit");
+
+        if (awaitingNextInput)
+        {
+            inputField.text = "";
+            monitorText.text = "";
+            awaitingNextInput = false;
+        }
+    }
+
 
     public void Evaluate()
     {
         string code = inputField.text.Trim();
-        Debug.Log($"[CodeEvaluator] 입력된 코드: '{code}'");
 
-        // ────────────────────────────────
-        //  공통 1단계: 문법 검사
-        // ────────────────────────────────
+        // 모니터 출력을 따로 복사본에 보관
+        string lastOutput = monitorText.text;
+
         if (parser.HasSyntaxError(code))
         {
             monitorText.text += "\nSyntax Error";
-            Debug.Log($"문법검사 시 오류발생");
-
+            awaitingNextInput = true;
             return;
         }
 
-        // ────────────────────────────────
-        //  단계별 정답 조건 분기
-        // ────────────────────────────────
         switch (stage)
         {
-            //  1단계: print("Hello World!")
             case 1:
                 if (!code.Contains("print") || !code.Contains("\"Hello World!\""))
                 {
-                    monitorText.text += "\n Missing print or string";
-                    Debug.Log($"오타 발생");
-
+                    monitorText.text += "\nWrong answer";
                     break;
                 }
-
                 monitorText.text += "\nHello World!";
-                Debug.Log($"1단계 성공");
+                // 단계 통과 진동과 사운드
                 lightController.ActivateLights();
-
                 stage++;
                 break;
 
-            //  2단계: decode('3%2&')
             case 2:
                 if (!code.Contains("decode") || !code.Contains("'3%2&'"))
                 {
-                    monitorText.text = "Missing decode or argument";
-                    return;
+                    monitorText.text += "\nWrong answer";
+                    break;
                 }
-                monitorText.text = "Decoded!";
-                lightController.ActivateLights();
+                monitorText.text += "\nDecoded!";
+                // 단계 통과 진동과 사운드
+                stage++;
                 break;
 
-            //  3단계: 조건문 포함
             case 3:
                 if (!code.Contains("if"))
                 {
-                    monitorText.text = "조건문(if)이 필요합니다";
-                    return;
+                    monitorText.text += "\nWrong answer";
+                    break;
                 }
-                monitorText.text = "조건문 확인!";
-                lightController.ActivateLights();
+                monitorText.text += "\nlearned if!";
+                // 단계 통과 진동과 사운드
+                stage++;
                 break;
 
-            //  4단계: 반복문 포함
             case 4:
                 if (!(code.Contains("for") || code.Contains("while")))
                 {
-                    monitorText.text = "반복문(for/while)이 필요합니다";
-                    return;
+                    monitorText.text += "\nWrong answer";
+                    break;
                 }
-                monitorText.text = "반복문 확인!";
-                lightController.ActivateLights();
+                monitorText.text += "\nlearned for/while";
+                // 단계 통과 진동과 사운드
+                stage++;
                 break;
 
-            //  5단계: 브루트포스 키워드 검사
             case 5:
                 var bruteKeywords = new List<string> { "for", "range", "if" };
                 foreach (var kw in bruteKeywords)
                 {
                     if (!code.Contains(kw))
                     {
-                        monitorText.text = $"Missing keyword: {kw}";
-                        return;
+                        monitorText.text += "\nWrong answer";
+                        break;
                     }
                 }
-                monitorText.text = "브루트포스 통과!";
-                lightController.ActivateLights();
+                monitorText.text += "Password is 1004";
+                // 단계 통과 진동과 사운드
                 break;
 
             default:
-                monitorText.text = "정의되지 않은 단계입니다";
+                monitorText.text += "What is this?";
                 break;
         }
 
-        // 입력창 초기화 + 포커스 복구 //////////
-        inputField.text = "";
-        inputField.Select();
-        inputField.ActivateInputField();
+        awaitingNextInput = true;
     }
 }

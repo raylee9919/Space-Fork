@@ -15,7 +15,7 @@ public class MiniPythonParser
             return true;
 
         // 기본 구문 형태 체크
-        if (!(code.Contains("print") || code.Contains("if") || code.Contains("for")))
+        if (!(code.Contains("print") || code.Contains("if") || code.Contains("for") || code.Contains("decode")))
             return true;
 
         // 간단한 패턴 예외: 콜론이 필요한데 없는 경우
