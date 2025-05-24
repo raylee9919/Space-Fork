@@ -41,13 +41,16 @@ public class CodeEvaluator : MonoBehaviour
                 if (!code.Contains("print") || !code.Contains("\"Hello World!\""))
                 {
                     monitorText.text += "\n Missing print or string";
+                    Debug.Log($"오타 발생");
 
-                    return;
+                    break;
                 }
 
                 monitorText.text += "\nHello World!";
-
+                Debug.Log($"1단계 성공");
                 lightController.ActivateLights();
+
+                stage++;
                 break;
 
             //  2단계: decode('3%2&')

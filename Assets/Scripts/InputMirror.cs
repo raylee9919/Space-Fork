@@ -26,6 +26,6 @@ public class InputMirror : MonoBehaviour
 
     private void OnInputChanged(string value)
     {
-        monitorText.text = ">>> " + value;
+        monitorText.text = value;
     }
 }
