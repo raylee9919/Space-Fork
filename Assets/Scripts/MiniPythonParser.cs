@@ -6,7 +6,7 @@ public class MiniPythonParser
     public bool HasSyntaxError(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
-            return true;
+            return false;
 
         code = code.Trim();
 

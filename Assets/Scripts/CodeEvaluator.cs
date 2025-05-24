@@ -18,17 +18,14 @@ public class CodeEvaluator : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("void Start()");
         if (inputField != null)
         {
             inputField.onValueChanged.AddListener(HandleInputStarted);
-            inputField.onSelect.AddListener(_ => ResetAfterSubmit());
         }
     }
 
     private void HandleInputStarted(string _)
     {
-        Debug.Log("HandleInputStarted");
         if (awaitingNextInput)
         {
             inputField.text = "";
@@ -36,26 +33,21 @@ public class CodeEvaluator : MonoBehaviour
             awaitingNextInput = false;
         }
     }
-
-    private void ResetAfterSubmit()
-    {
-        Debug.Log("ResetAfterSubmit");
-
-        if (awaitingNextInput)
-        {
-            inputField.text = "";
-            monitorText.text = "";
-            awaitingNextInput = false;
-        }
-    }
-
 
     public void Evaluate()
     {
+        if (awaitingNextInput)
+        {
+            inputField.text = "";
+            monitorText.text = "";
+            awaitingNextInput = false;
+            return;
+        }
+
         string code = inputField.text.Trim();
 
-        // 모니터 출력을 따로 복사본에 보관
-        string lastOutput = monitorText.text;
+        if (string.IsNullOrWhiteSpace(code))
+            return;
 
         if (parser.HasSyntaxError(code))
         {
