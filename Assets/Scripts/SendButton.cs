@@ -9,7 +9,6 @@ public class SendButton : MonoBehaviour
     {
         if (codeEvaluator == null)
         {
-            Debug.LogError("[SendButton] CodeEvaluator가 연결되어 있지 않습니다.");
             return;
         }
 

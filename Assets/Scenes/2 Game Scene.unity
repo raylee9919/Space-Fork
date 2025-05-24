@@ -2831,13 +2831,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lights:
+  - {fileID: 1908147173}
+  - {fileID: 293437678}
+  - {fileID: 568730815}
+  - {fileID: 2061744722}
   - {fileID: 1049184243}
   - {fileID: 1499418555}
-  - {fileID: 568730815}
-  - {fileID: 293437678}
-  - {fileID: 2061744722}
   - {fileID: 1125040680}
-  - {fileID: 1908147173}
 --- !u!1 &1103477372
 GameObject:
   m_ObjectHideFlags: 0
@@ -6332,8 +6332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatAmplitude: 0.05
   floatFrequency: 1.5
-  turnSpeed: 2
-  hitSound: {fileID: 8300000, guid: 63a69248414fedf41b25edddfd233417, type: 3}
+  turnSpeed: 3
+  hitSound: {fileID: 8300000, guid: 4885bb3bfe406a44ab63462c4440da59, type: 3}
 --- !u!82 &1754594615
 AudioSource:
   m_ObjectHideFlags: 0

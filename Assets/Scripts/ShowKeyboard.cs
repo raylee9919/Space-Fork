@@ -11,7 +11,7 @@ public class ShowKeyboard : MonoBehaviour
         inputField = GetComponent<TMP_InputField>();
 
         // 입력 필드 선택 시 키보드 열기
-        inputField.onSelect.AddListener(x => OpenKeyboard());
+        inputField.onSelect.AddListener(x => OpenKeyboard()); //?
 
         // 엔터 입력 시 줄바꿈
         inputField.lineType = TMP_InputField.LineType.MultiLineNewline;
