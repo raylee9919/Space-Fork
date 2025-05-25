@@ -15,7 +15,6 @@ public class CodeEvaluator : MonoBehaviour
     private AudioSource audioSource;
     public HapticTrigger hapticTrigger;
 
-    [Range(1, 5)]
     public int stage = 1;
 
     private bool awaitingNextInput = false;
@@ -27,8 +26,8 @@ public class CodeEvaluator : MonoBehaviour
             inputField.onValueChanged.AddListener(HandleInputStarted);
         }
 
-        audioSource = gameObject.AddComponent<AudioSource>(); //
-        audioSource.clip = successSound; //
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = successSound;
     }
 
     private void HandleInputStarted(string _)
@@ -71,43 +70,78 @@ public class CodeEvaluator : MonoBehaviour
                     monitorText.text += "\nWrong answer";
                     break;
                 }
-                monitorText.text += "\nHello World!";
+                monitorText.text += "\nLogin Success: Hello World!";
                 Success();
                 lightController.ActivateLights();
                 break;
 
             case 2:
-                if (!code.Contains("decode") || !code.Contains("'3%2&'"))
+                if (!code.Contains("decode") || !code.Contains("3%2&"))
                 {
                     monitorText.text += "\nWrong answer";
                     break;
                 }
-                monitorText.text += "\nDecoded!";
+                monitorText.text += "\nAlien: Oxygen levels are decreasing. It is dangerous if oxygen is below 18%. 21% is safe.";
                 Success();
                 break;
 
             case 3:
-                if (!code.Contains("if"))
+                if (!code.Contains("if oxygen") || !code.Contains("<") || !code.Contains("18") || !code.Contains("=") || !code.Contains("21"))
                 {
                     monitorText.text += "\nWrong answer";
                     break;
                 }
-                monitorText.text += "\nlearned if!";
+                monitorText.text += "\nCongratulations!! Oxygen system has been normalized.";
                 Success();
                 break;
 
             case 4:
-                if (!(code.Contains("for") || code.Contains("while")))
+                if (!code.Contains("decode") || !code.Contains("*7^5"))
                 {
                     monitorText.text += "\nWrong answer";
                     break;
                 }
-                monitorText.text += "\nlearned for/while";
+                monitorText.text += "\nAlien: The five bolts of the docking module must be released.";
                 Success();
                 break;
 
             case 5:
-                var bruteKeywords = new List<string> { "for", "range", "if" };
+                if ((!code.Contains("for") || !code.Contains("in range(5):") || !code.Contains("release_bolt()")) && (!code.Contains("while") || !(code.Contains("+= 1") || code.Contains("-= 1")) || !code.Contains("release_bolt()")))
+                {
+                    monitorText.text += "\nWrong answer";
+                    break;
+                }
+                monitorText.text += "\nAll bolts released complete. The docking module is disconnected. You can go anywhere you want.";
+                Success();
+                break;
+
+            case 6:
+                if (!code.Contains("navigate") || !(code.Contains("Earth") || code.Contains("Mars") || code.Contains("Jupiter")))
+                {
+                    monitorText.text += "\nWrong answer";
+                    break;
+                }
+                if (code.Contains("Earth"))
+                {
+                    monitorText.text += "\nDestination set: Earth";
+                }
+                else if (code.Contains("Mars"))
+                {
+                    monitorText.text += "\nDestination set: Mars";
+                }
+                else if (code.Contains("Jupiter"))
+                {
+                    monitorText.text += "\nDestination set: Jupiter";
+                }
+                else
+                {
+                    monitorText.text += "\nDestination set: ?";
+                }
+                Success();
+                break;
+
+            case 7:
+                var bruteKeywords = new List<string> { "for", "in range(9999)", "if", "== password", "print(" };
                 foreach (var kw in bruteKeywords)
                 {
                     if (!code.Contains(kw))
@@ -116,12 +150,12 @@ public class CodeEvaluator : MonoBehaviour
                         break;
                     }
                 }
-                monitorText.text += "Password is 1004";
+                monitorText.text += "Password is 1004. Congratulations on your escape!!";
                 Success();
                 break;
 
             default:
-                monitorText.text += "What is this?";
+                monitorText.text += "Error";
                 break;
         }
 
