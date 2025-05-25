@@ -1,39 +1,45 @@
 ﻿using UnityEngine;
-using System.Collections; // sound cut
+using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Rigidbody))]
 public class AlienMover : MonoBehaviour
 {
-    public float floatAmplitude = 0.05f;
-    public float floatFrequency = 1.5f;
     public float turnSpeed = 2.0f;
-    public AudioClip hitSound; // sound
+    public float moveSpeed = 1.5f;
+    public float followDistance = 1.5f;
 
-    private float baseY;
-    private AudioSource audioSource; //sound
-
+    private bool star = true;
+    public AudioClip hitSound1;
+    public AudioClip hitSound2;
+    private AudioSource audioSource;
     public HapticTrigger hapticTrigger;
+
+    private Rigidbody rb;
+    private Transform playerTransform;
 
     void Start()
     {
-        baseY = transform.position.y;
-        audioSource = GetComponent<AudioSource>(); // sound
+        audioSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
+        // 플레이어 위치 추적
+        GameObject player = GameObject.FindWithTag("MainCamera");
+        if (player != null)
+            playerTransform = player.transform;
+        else
+            playerTransform = Camera.main?.transform;
     }
 
     void Update()
     {
-        // Y축 진동 (부유감)
-        float floatOffset = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
-        Vector3 pos = transform.position;
-        pos.y = baseY + floatOffset;
-        transform.position = pos;
-
-        // 플레이어(카메라)를 바라보게 회전
-        if (Camera.main != null)
+        // 회전 - 플레이어 바라보기
+        if (playerTransform != null)
         {
-            Vector3 lookTarget = Camera.main.transform.position;
+            Vector3 lookTarget = playerTransform.position;
             Vector3 direction = (lookTarget - transform.position).normalized;
-            direction.y = 0; // 수평 회전만
+            direction.y = 0;
 
             if (direction != Vector3.zero)
             {
@@ -43,25 +49,50 @@ public class AlienMover : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision) // sound
+    void FixedUpdate()
     {
-        if (hitSound != null && !audioSource.isPlaying)
+        if (playerTransform == null) return;
+
+        Vector3 direction = (playerTransform.position - rb.position);
+        direction.y = 0;
+
+        if (direction.magnitude > followDistance)
         {
-            hapticTrigger.TriggerHaptic();  // 외부 진동 실행
-            StartCoroutine(PlayClipForSeconds(2f)); // 앞 2초만 재생
-            Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name} → 사운드 재생");
+            Vector3 moveDir = direction.normalized * moveSpeed * Time.fixedDeltaTime;
+            Vector3 moveTarget = rb.position + moveDir;
+            moveTarget.y = rb.position.y; // Y축은 건드리지 않음
+
+            rb.MovePosition(moveTarget);
         }
     }
 
-    IEnumerator PlayClipForSeconds(float duration) // sound cut
+    void OnCollisionEnter(Collision collision)
     {
-        audioSource.clip = hitSound;
+        if (collision.gameObject.name == "Left Controller" || collision.gameObject.name == "Right Controller")
+        {
+            if (!audioSource.isPlaying)
+            {
+                hapticTrigger.TriggerHaptic();
+                StartCoroutine(PlayClipForSeconds(2f));
+                Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name} → 사운드 재생");
+            }
+        }
+    }
+
+    IEnumerator PlayClipForSeconds(float duration)
+    {
+        if (star)
+        {
+            audioSource.clip = hitSound1;
+            star = false;
+        }
+        else
+        {
+            audioSource.clip = hitSound2;
+            star = true;
+        }
         audioSource.Play();
-        Debug.Log($"[Alien] 오디오 재생됨? isPlaying: {audioSource.isPlaying}");
         yield return new WaitForSeconds(duration);
         audioSource.Stop();
     }
-
-    // Sound Effect by <a href="https://pixabay.com/users/benkirb-8692052/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268907">Benjamin Adams</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268907">Pixabay</a>
-
 }
