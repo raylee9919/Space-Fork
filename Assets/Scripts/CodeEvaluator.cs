@@ -11,6 +11,10 @@ public class CodeEvaluator : MonoBehaviour
 
     private MiniPythonParser parser = new MiniPythonParser();
 
+    public AudioClip successSound;
+    private AudioSource audioSource;
+    public HapticTrigger hapticTrigger;
+
     [Range(1, 5)]
     public int stage = 1;
 
@@ -22,6 +26,9 @@ public class CodeEvaluator : MonoBehaviour
         {
             inputField.onValueChanged.AddListener(HandleInputStarted);
         }
+
+        audioSource = gameObject.AddComponent<AudioSource>(); //
+        audioSource.clip = successSound; //
     }
 
     private void HandleInputStarted(string _)
@@ -65,9 +72,8 @@ public class CodeEvaluator : MonoBehaviour
                     break;
                 }
                 monitorText.text += "\nHello World!";
-                // 단계 통과 진동과 사운드
+                Success();
                 lightController.ActivateLights();
-                stage++;
                 break;
 
             case 2:
@@ -77,8 +83,7 @@ public class CodeEvaluator : MonoBehaviour
                     break;
                 }
                 monitorText.text += "\nDecoded!";
-                // 단계 통과 진동과 사운드
-                stage++;
+                Success();
                 break;
 
             case 3:
@@ -88,8 +93,7 @@ public class CodeEvaluator : MonoBehaviour
                     break;
                 }
                 monitorText.text += "\nlearned if!";
-                // 단계 통과 진동과 사운드
-                stage++;
+                Success();
                 break;
 
             case 4:
@@ -99,8 +103,7 @@ public class CodeEvaluator : MonoBehaviour
                     break;
                 }
                 monitorText.text += "\nlearned for/while";
-                // 단계 통과 진동과 사운드
-                stage++;
+                Success();
                 break;
 
             case 5:
@@ -114,7 +117,7 @@ public class CodeEvaluator : MonoBehaviour
                     }
                 }
                 monitorText.text += "Password is 1004";
-                // 단계 통과 진동과 사운드
+                Success();
                 break;
 
             default:
@@ -123,5 +126,13 @@ public class CodeEvaluator : MonoBehaviour
         }
 
         awaitingNextInput = true;
+    }
+
+    void Success()
+    {
+        stage++;
+        hapticTrigger.TriggerHaptic();
+        audioSource.Play();
+        // Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">Pixabay</a>
     }
 }

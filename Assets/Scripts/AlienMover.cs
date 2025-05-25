@@ -12,6 +12,8 @@ public class AlienMover : MonoBehaviour
     private float baseY;
     private AudioSource audioSource; //sound
 
+    public HapticTrigger hapticTrigger;
+
     void Start()
     {
         baseY = transform.position.y;
@@ -45,6 +47,7 @@ public class AlienMover : MonoBehaviour
     {
         if (hitSound != null && !audioSource.isPlaying)
         {
+            hapticTrigger.TriggerHaptic();  // 외부 진동 실행
             StartCoroutine(PlayClipForSeconds(2f)); // 앞 2초만 재생
             Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name} → 사운드 재생");
         }
@@ -59,5 +62,6 @@ public class AlienMover : MonoBehaviour
         audioSource.Stop();
     }
 
+    // Sound Effect by <a href="https://pixabay.com/users/benkirb-8692052/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268907">Benjamin Adams</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=268907">Pixabay</a>
 
 }
