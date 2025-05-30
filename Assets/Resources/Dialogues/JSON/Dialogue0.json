@@ -1,0 +1,46 @@
+[
+  {
+    "Alien": "Hello, Sailor!"
+  },
+  {
+    "Alien": "Mon Ami!"
+  },
+  {
+    "Alien": "Life Good!"
+  },
+  {
+    "Alien": "Python Sucks!"
+  },
+  {
+    "?": [
+      {
+        "1": [
+          "Monster!!!!!!",
+          {
+            "Alien": "That's offending."
+          },
+          {
+            "Alien": "I'll forgive you once."
+          },
+          {
+            "EOD": "EOD"
+          }
+        ]
+      },
+      {
+        "2": [
+          "Who are you?",
+          {
+            "Alien": "Sailor!"
+          },
+          {
+            "Alien": "Just like you!"
+          },
+          {
+            "EOD": "EOD"
+          }
+        ]
+      }
+    ]
+  }
+]
