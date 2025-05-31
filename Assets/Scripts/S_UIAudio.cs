@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIAudio : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class S_UIAudio : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public string clickAudioName;
     public string hoverEnterAudioName;
@@ -13,7 +13,7 @@ public class UIAudio : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
     {
         if(clickAudioName != "")
         {
-            AudioManager.instance.Play(clickAudioName);
+            S_AudioManager.instance.Play(clickAudioName);
         }
     }
 
@@ -21,7 +21,7 @@ public class UIAudio : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
     {
         if (hoverEnterAudioName != "")
         {
-            AudioManager.instance.Play(hoverEnterAudioName);
+            S_AudioManager.instance.Play(hoverEnterAudioName);
         }
     }
 
@@ -29,7 +29,7 @@ public class UIAudio : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
     {
         if (hoverExitAudioName != "")
         {
-            AudioManager.instance.Play(hoverExitAudioName);
+            S_AudioManager.instance.Play(hoverExitAudioName);
         }
     }
 }

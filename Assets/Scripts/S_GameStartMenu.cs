@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameStartMenu : MonoBehaviour
+public class S_GameStartMenu : MonoBehaviour
 {
     [Header("UI Pages")]
     public GameObject mainMenu;
     public GameObject options;
     public GameObject about;
-
+    
     [Header("Main Menu Buttons")]
     public Button startButton;
     public Button optionButton;

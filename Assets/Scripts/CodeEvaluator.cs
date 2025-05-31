@@ -15,7 +15,7 @@ public class CodeEvaluator : MonoBehaviour
     private AudioSource audioSource;
     public HapticTrigger hapticTrigger;
 
-    public int stage = 1;
+    public StepManager stepManager;
 
     private bool awaitingNextInput = false;
 
@@ -62,9 +62,10 @@ public class CodeEvaluator : MonoBehaviour
             return;
         }
 
+        GameStage stage = stepManager.currentStage;
         switch (stage)
         {
-            case 1:
+            case GameStage.PowerOn:
                 if (!code.Contains("print") || !code.Contains("\"Hello World!\""))
                 {
                     monitorText.text += "\nWrong answer";
@@ -75,17 +76,7 @@ public class CodeEvaluator : MonoBehaviour
                 lightController.ActivateLights();
                 break;
 
-            case 2:
-                if (!code.Contains("decode") || !code.Contains("3%2&"))
-                {
-                    monitorText.text += "\nWrong answer";
-                    break;
-                }
-                monitorText.text += "\nAlien: Oxygen levels are decreasing. It is dangerous if oxygen is below 18%. 21% is safe.";
-                Success();
-                break;
-
-            case 3:
+            case GameStage.OxygenFix:
                 if (!code.Contains("if oxygen") || !code.Contains("<") || !code.Contains("18") || !code.Contains("=") || !code.Contains("21"))
                 {
                     monitorText.text += "\nWrong answer";
@@ -95,17 +86,7 @@ public class CodeEvaluator : MonoBehaviour
                 Success();
                 break;
 
-            case 4:
-                if (!code.Contains("decode") || !code.Contains("*7^5"))
-                {
-                    monitorText.text += "\nWrong answer";
-                    break;
-                }
-                monitorText.text += "\nAlien: The five bolts of the docking module must be released.";
-                Success();
-                break;
-
-            case 5:
+            case GameStage.DockRelease:
                 if ((!code.Contains("for") || !code.Contains("in range(5):") || !code.Contains("release_bolt()")) && (!code.Contains("while") || !(code.Contains("+= 1") || code.Contains("-= 1")) || !code.Contains("release_bolt()")))
                 {
                     monitorText.text += "\nWrong answer";
@@ -115,7 +96,7 @@ public class CodeEvaluator : MonoBehaviour
                 Success();
                 break;
 
-            case 6:
+            case GameStage.FlyAway:
                 if (!code.Contains("navigate") || !(code.Contains("Earth") || code.Contains("Mars") || code.Contains("Jupiter")))
                 {
                     monitorText.text += "\nWrong answer";
@@ -140,7 +121,7 @@ public class CodeEvaluator : MonoBehaviour
                 Success();
                 break;
 
-            case 7:
+            case GameStage.Escape:
                 var bruteKeywords = new List<string> { "for", "in range(9999)", "if", "== password", "print(" };
                 foreach (var kw in bruteKeywords)
                 {
@@ -164,7 +145,7 @@ public class CodeEvaluator : MonoBehaviour
 
     void Success()
     {
-        stage++;
+        stepManager.AdvanceStage();  
         hapticTrigger.TriggerHaptic();
         audioSource.Play();
         // Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">Pixabay</a>
