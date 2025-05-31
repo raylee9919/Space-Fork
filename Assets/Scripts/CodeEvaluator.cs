@@ -145,9 +145,16 @@ public class CodeEvaluator : MonoBehaviour
 
     void Success()
     {
-        stepManager.AdvanceStage();  
+        DLM.Print(); // EOD 호출
         hapticTrigger.TriggerHaptic();
         audioSource.Play();
-        // Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6185">Pixabay</a>
+        StartCoroutine(DelayNextStage());
     }
+
+    private System.Collections.IEnumerator DelayNextStage()
+    {
+        yield return new WaitForSeconds(3f);
+        stepManager.AdvanceStage();
+    }
+
 }

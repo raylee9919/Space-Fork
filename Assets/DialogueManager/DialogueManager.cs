@@ -21,6 +21,7 @@ public class DLM : MonoBehaviour
     Load(string path)
     {
         bool result = false;
+        
         if (!instance.inDialogue)
         {
             instance.index = 0;
@@ -108,7 +109,7 @@ public class DLM : MonoBehaviour
     }
 
     private void Awake()
-    { 
+    {
         instance = this;
         instance.textDisplay.text = "";
         DeactivateButtons();
