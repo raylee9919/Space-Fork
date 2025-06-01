@@ -27,7 +27,6 @@ public class CodeEvaluator : MonoBehaviour
         }
 
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = successSound;
     }
 
     private void HandleInputStarted(string _)
@@ -92,7 +91,7 @@ public class CodeEvaluator : MonoBehaviour
                     monitorText.text += "\nWrong answer";
                     break;
                 }
-                monitorText.text += "\nAll bolts released complete. The docking module is disconnected. You can go anywhere you want.";
+                monitorText.text += "\nThe docking module is disconnected. You can go anywhere you want.";
                 Success();
                 break;
 
@@ -122,18 +121,27 @@ public class CodeEvaluator : MonoBehaviour
                 break;
 
             case GameStage.Escape:
+                bool ans = true;
                 var bruteKeywords = new List<string> { "for", "in range(9999)", "if", "== password", "print(" };
                 foreach (var kw in bruteKeywords)
                 {
                     if (!code.Contains(kw))
                     {
-                        monitorText.text += "\nWrong answer";
-                        break;
+                        ans = false;                       
                     }
                 }
-                monitorText.text += "Password is 1004. Congratulations on your escape!!";
-                Success();
-                break;
+
+                if (ans)
+                {
+                    monitorText.text += "Password is 1004. Congratulations on your escape!!";
+                    Success();
+                    break;
+                }
+                else
+                {
+                    monitorText.text += "\nWrong answer";
+                    break;
+                }
 
             default:
                 monitorText.text += "Error";
@@ -147,6 +155,7 @@ public class CodeEvaluator : MonoBehaviour
     {
         DLM.Print(); // EOD 호출
         hapticTrigger.TriggerHaptic();
+        audioSource.clip = successSound;
         audioSource.Play();
         StartCoroutine(DelayNextStage());
     }
@@ -156,5 +165,7 @@ public class CodeEvaluator : MonoBehaviour
         yield return new WaitForSeconds(3f);
         stepManager.AdvanceStage();
     }
+
+    
 
 }

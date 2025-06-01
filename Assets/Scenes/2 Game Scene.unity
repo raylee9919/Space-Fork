@@ -1263,6 +1263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStage: 0
+  alienTalkSound: {fileID: 8300000, guid: 997daea7f6f1d404d84abfbcc8dea2c3, type: 3}
 --- !u!4 &487914177
 Transform:
   m_ObjectHideFlags: 0

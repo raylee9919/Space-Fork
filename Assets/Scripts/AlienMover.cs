@@ -74,7 +74,6 @@ public class AlienMover : MonoBehaviour
             {
                 hapticTrigger.TriggerHaptic();
                 StartCoroutine(PlayClipForSeconds(2f));
-                Debug.Log($"[Alien] 충돌 감지: {collision.gameObject.name} → 사운드 재생");
             }
         }
     }
