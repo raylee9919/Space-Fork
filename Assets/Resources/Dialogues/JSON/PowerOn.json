@@ -1,6 +1,12 @@
 [
   {
-    "Alien": "Alright! Enter the password and hit the button on the left. Boom! Maybe a sneaky little hint was on the console¡¦ somewhere¡¦"
+    "Alien": "You Okay? We have to get to the planet! The planet!!"
+  },
+  {
+    "Alien": "Oops.. I forgot the password to the main system."
+  },
+  {
+    "Alien": "Find the password and hit the button on the left. Maybe a hint is on the right console.. somewhere.."
   },
   {
     "EOD": "EOD"

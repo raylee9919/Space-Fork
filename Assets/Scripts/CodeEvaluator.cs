@@ -122,7 +122,7 @@ public class CodeEvaluator : MonoBehaviour
 
             case GameStage.Escape:
                 bool ans = true;
-                var bruteKeywords = new List<string> { "for", "in range(9999)", "if", "== password", "print(" };
+                var bruteKeywords = new List<string> { "for", "in range", "(10000)", "unlock(" };
                 foreach (var kw in bruteKeywords)
                 {
                     if (!code.Contains(kw))
@@ -133,7 +133,7 @@ public class CodeEvaluator : MonoBehaviour
 
                 if (ans)
                 {
-                    monitorText.text += "Password is 1004. Congratulations on your escape!!";
+                    monitorText.text += "\nCongratulations on your escape!!";
                     Success();
                     break;
                 }
@@ -165,7 +165,5 @@ public class CodeEvaluator : MonoBehaviour
         yield return new WaitForSeconds(3f);
         stepManager.AdvanceStage();
     }
-
     
-
 }

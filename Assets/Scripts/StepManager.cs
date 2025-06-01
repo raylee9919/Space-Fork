@@ -3,22 +3,21 @@ using System.Collections;
 
 public enum GameStage
 {
-    Intro,       // 0단계
-    PowerOn,     // 1단계
-    OxygenFix,   // 2단계
-    DockRelease, // 3단계
-    FlyAway,     // 4+미니게임
-    Escape       // 5단계
+    Intro,       
+    PowerOn,    
+    OxygenFix,   
+    DockRelease, 
+    FlyAway,     
+    Escape,
+    Finish
 }
 
 public class StepManager : MonoBehaviour
 {
-    // public AlienDialogueManager dialogueManager;
-    // public GameObject consolePanel, oxygenPanel, boltPanel;
     public GameStage currentStage = GameStage.Intro;
     public AudioClip alienTalkSound;
     private AudioSource audioSource;
-
+    private int[] stageTalkCount = { 3, 2, 2, 1, 3, 2 };
 
     void Start()
     {
@@ -29,52 +28,53 @@ public class StepManager : MonoBehaviour
     {
         currentStage++;
 
-        // dialogueManager.SetDialogue(currentStage);
-
         switch (currentStage)
         {
             case GameStage.PowerOn:
                 DLM.Load("PowerOn");
-                DLM.Print();
-                StartCoroutine(AlienTalk());
+                StartCoroutine(AlienTalk(0));
                 break;
 
             case GameStage.OxygenFix:
                 DLM.Load("OxygenFix");
-                DLM.Print();
-                StartCoroutine(AlienTalk());
+                StartCoroutine(AlienTalk(1));
 
                 break;
 
             case GameStage.DockRelease:
                 DLM.Load("DockRelease");
-                StartCoroutine(AlienTalk());
-                DLM.Print();
+                StartCoroutine(AlienTalk(2));
                 break;
 
             case GameStage.FlyAway:
                 DLM.Load("FlyAway");
-                StartCoroutine(AlienTalk());
-                DLM.Print();
+                StartCoroutine(AlienTalk(3));
                 break;
 
             case GameStage.Escape:
                 DLM.Load("Escape");
-                StartCoroutine(AlienTalk());
-                DLM.Print();
+                StartCoroutine(AlienTalk(4));
                 break;
+
+            case GameStage.Finish:
+                DLM.Load("Finish");
+                StartCoroutine(AlienTalk(5));
+                break;
+
         }
     }
 
-    IEnumerator AlienTalk()
+    IEnumerator AlienTalk(int i)
     {
-        audioSource.clip = alienTalkSound;
-        audioSource.Play();
-        yield return new WaitForSeconds(3f);
-        audioSource.Stop();
+        for (int j = 0; j < stageTalkCount[i]; j++)
+        {
+            audioSource.clip = alienTalkSound;
+            audioSource.Play();
+            DLM.Print();
+            yield return new WaitForSeconds(3f);
+            audioSource.Stop();
+            yield return new WaitForSeconds(3f);
+        }
     }
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(5f);
-    }
+
 }

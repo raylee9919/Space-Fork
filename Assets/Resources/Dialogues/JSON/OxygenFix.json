@@ -1,6 +1,9 @@
 [
   {
-    "Alien": "Uh-oh... I think the oxygen thingy is busted! If it drops below 18%, make it 21% again, okay? Otherwise, we¡¯ll both start sounding like squeaky toys!"
+    "Alien": "Uh-oh... Oxygen system is broken. We will both start sounding like squeaky toys!"
+  },
+  {
+    "Alien": "If Oxygen system drops below 18%, make it 21% again, okay?"
   },
   {
     "EOD": "EOD"

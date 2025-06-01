@@ -1,6 +1,9 @@
 [
   {
-    "Alien": "Wanna fly this ship out of here? You gotta release the five bolts on the docking module. One¡¦ two¡¦ three... yep, five in total!"
+    "Alien": "Wanna fly this ship out of here? One, two... three... yep, five in total!"
+  },
+  {
+    "Alien": "You should release the five bolts on the docking module."
   },
   {
     "EOD": "EOD"

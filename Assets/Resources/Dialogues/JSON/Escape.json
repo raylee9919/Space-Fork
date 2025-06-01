@@ -1,6 +1,12 @@
 [
   {
-    "Alien": "Yay! We made it to the planet safely! Now, the exit door needs a 4-digit code¡¦ which I kinda... maybe... totally forgot. Try all 4-digit codes... There¡¯s only like¡¦ ten thousand combinations, right?"
+    "Alien": "Yay! We made it to the planet safely!"
+  },
+  {
+    "Alien": "Now, the exit door needs a 4-digit code. which I kinda.. maybe.. totally forgot."
+  },
+  {
+    "Alien": "Try all 4-digit codes. There is only like.. ten thousand combinations, right?"
   },
   {
     "EOD": "EOD"
