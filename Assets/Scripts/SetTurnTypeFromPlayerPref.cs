@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class S_SetTurnTypeFromPlayerPref : MonoBehaviour
+public class SetTurnTypeFromPlayerPref : MonoBehaviour
 {
     public ActionBasedSnapTurnProvider snapTurn;
     public ActionBasedContinuousTurnProvider continuousTurn;

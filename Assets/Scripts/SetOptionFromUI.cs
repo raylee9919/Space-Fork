@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class S_SetOptionFromUI : MonoBehaviour
+public class SetOptionFromUI : MonoBehaviour
 {
     public Scrollbar volumeSlider;
     public TMPro.TMP_Dropdown turnDropdown;
-    public S_SetTurnTypeFromPlayerPref turnTypeFromPlayerPref;
+    public SetTurnTypeFromPlayerPref turnTypeFromPlayerPref;
 
     private void Start()
     {
