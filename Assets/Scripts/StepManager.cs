@@ -34,35 +34,31 @@ public class StepManager : MonoBehaviour
         switch (currentStage)
         {
             case GameStage.PowerOn:
-                Debug.Log("StepManager.AdvanceStage(): " + currentStage);
                 DLM.Load("PowerOn");
-                StartCoroutine(AlienTalk()); 
                 DLM.Print();
+                StartCoroutine(AlienTalk());
                 break;
 
             case GameStage.OxygenFix:
-                Debug.Log("StepManager.AdvanceStage(): " + currentStage);
                 DLM.Load("OxygenFix");
-                StartCoroutine(AlienTalk());
                 DLM.Print();
+                StartCoroutine(AlienTalk());
+
                 break;
 
             case GameStage.DockRelease:
-                Debug.Log("StepManager.AdvanceStage(): " + currentStage);
                 DLM.Load("DockRelease");
                 StartCoroutine(AlienTalk());
                 DLM.Print();
                 break;
 
             case GameStage.FlyAway:
-                Debug.Log("StepManager.AdvanceStage(): " + currentStage);
                 DLM.Load("FlyAway");
                 StartCoroutine(AlienTalk());
                 DLM.Print();
                 break;
 
             case GameStage.Escape:
-                Debug.Log("StepManager.AdvanceStage(): " + currentStage);
                 DLM.Load("Escape");
                 StartCoroutine(AlienTalk());
                 DLM.Print();
@@ -76,5 +72,9 @@ public class StepManager : MonoBehaviour
         audioSource.Play();
         yield return new WaitForSeconds(3f);
         audioSource.Stop();
+    }
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(5f);
     }
 }
