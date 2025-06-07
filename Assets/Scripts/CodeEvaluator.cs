@@ -8,6 +8,7 @@ public class CodeEvaluator : MonoBehaviour
     public TMP_InputField inputField;
     public TextMeshProUGUI monitorText;
     public LightController lightController;
+    public OpenDoor openDoor;
 
     private MiniPythonParser parser = new MiniPythonParser();
 
@@ -135,6 +136,7 @@ public class CodeEvaluator : MonoBehaviour
                 {
                     monitorText.text += "\nThe door opens. Congratulations on your escape!!";
                     Success();
+                    openDoor.TriggerOpen();
                     break;
                 }
                 else
