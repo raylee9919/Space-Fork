@@ -133,7 +133,7 @@ public class CodeEvaluator : MonoBehaviour
 
                 if (ans)
                 {
-                    monitorText.text += "\nCongratulations on your escape!!";
+                    monitorText.text += "\nThe door opens. Congratulations on your escape!!";
                     Success();
                     break;
                 }
@@ -162,7 +162,7 @@ public class CodeEvaluator : MonoBehaviour
 
     private System.Collections.IEnumerator DelayNextStage()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
         stepManager.AdvanceStage();
     }
     

@@ -1192,6 +1192,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStage: 0
   alienTalkSound: {fileID: 8300000, guid: 997daea7f6f1d404d84abfbcc8dea2c3, type: 3}
+  spaceShipSound: {fileID: 8300000, guid: e8d3ca85713b3994f9e424598534fa79, type: 3}
+  hapticTrigger: {fileID: 1963857556}
 --- !u!4 &487914177
 Transform:
   m_ObjectHideFlags: 0
@@ -7766,10 +7768,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2857b4be5af9bdc4fabc2e47dec848f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
-  intensity: 1
-  duration: 1
+  leftController: {fileID: 1398364039}
+  rightController: {fileID: 1672951928}
+  intensity: 0.7
+  duration: 2
 --- !u!4 &1963857557
 Transform:
   m_ObjectHideFlags: 0

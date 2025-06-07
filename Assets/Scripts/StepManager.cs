@@ -16,7 +16,9 @@ public class StepManager : MonoBehaviour
 {
     public GameStage currentStage = GameStage.Intro;
     public AudioClip alienTalkSound;
+    public AudioClip spaceShipSound;
     private AudioSource audioSource;
+    public HapticTrigger hapticTrigger;
     private int[] stageTalkCount = { 3, 2, 2, 1, 3, 2 };
 
     void Start()
@@ -38,7 +40,6 @@ public class StepManager : MonoBehaviour
             case GameStage.OxygenFix:
                 DLM.Load("OxygenFix");
                 StartCoroutine(AlienTalk(1));
-
                 break;
 
             case GameStage.DockRelease:
@@ -53,7 +54,8 @@ public class StepManager : MonoBehaviour
 
             case GameStage.Escape:
                 DLM.Load("Escape");
-                StartCoroutine(AlienTalk(4));
+                // 우주 비행하는 소리 및 진동
+                StartCoroutine(FlyAndAlienTalk(4));
                 break;
 
             case GameStage.Finish:
@@ -71,10 +73,30 @@ public class StepManager : MonoBehaviour
             audioSource.clip = alienTalkSound;
             audioSource.Play();
             DLM.Print();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             audioSource.Stop();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(4f);
         }
     }
 
+    IEnumerator FlyAndAlienTalk(int i)
+    {
+        audioSource.clip = spaceShipSound;
+        audioSource.Play();
+        hapticTrigger.TriggerHaptic();
+
+        yield return new WaitForSeconds(6f);
+        audioSource.Stop();
+        yield return new WaitForSeconds(1f);
+
+        for (int j = 0; j < stageTalkCount[i]; j++)
+        {
+            audioSource.clip = alienTalkSound;
+            audioSource.Play();
+            DLM.Print();
+            yield return new WaitForSeconds(2f);
+            audioSource.Stop();
+            yield return new WaitForSeconds(4f);
+        }
+    }
 }
